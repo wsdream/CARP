@@ -15,7 +15,7 @@ cimport numpy as np # import C-API
 # Make declarations on functions from cpp file
 #
 cdef extern from "PMF.h":
-    void PMF_core(double *removedData, int numUser, int numService, 
+    void PMF(double *removedData, int numUser, int numService, 
     	int dim, double lmda, int maxIter, double etaInit, 
         double *Udata, double *Sdata)
 #########################################################
@@ -39,8 +39,8 @@ def predict(removedMatrix, para):
     
     logger.info('Iterating...')
 
-    # Wrap the PMF_core.cpp
-    PMF_core(
+    # wrap up PMF.cpp
+    PMF(
         <double *> (<np.ndarray[double, ndim=2, mode='c']> removedMatrix).data,
         numUser,
         numService,

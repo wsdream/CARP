@@ -13,14 +13,13 @@ from libcpp cimport bool
 from libcpp.vector cimport vector
 from libcpp cimport *
 import scipy.cluster # import K-means
-import itertools
 
 
 #########################################################
 # Make declarations on functions from cpp file
 #
 cdef extern from "CLUS.h":
-    void CLUS_core(double *removedData, double *predData, int numUser, 
+    void CLUS(double *removedData, double *predData, int numUser, 
         int numService, int numTimeSlice, vector[int] attrEv, 
         vector[int] attrUs, vector[int] attrWs, vector[vector[int]] clusterEv, 
         vector[vector[int]] clusterUs, vector[vector[int]] clusterWs, 
@@ -81,8 +80,8 @@ def predict(removedTensor, para):
     cdef vector[int] vecAttrWs = attrWs
     cdef bool debugMode = para['debugMode']
 
-    # Wrap the CLUS_core.cpp
-    CLUS_core(
+    # wrap up CLUS.cpp
+    CLUS(
         <double *> (<np.ndarray[double, ndim=3, mode='c']> removedTensor).data,
         <double *> predTensor.data,
         <int> numUser,

@@ -17,30 +17,21 @@
 #include "CLUS.h"
 using namespace std;
 
-const double eps = 1e-8;
 
 /// note that predData is the output of this function
-void CLUS_core(double *removedData, double *predData, int numUser, int numService, 
+void CLUS(double *removedData, double *predData, int numUser, int numService, 
 	int numTimeSlice, vector<int> attrEv, vector<int> attrUs, vector<int> attrWs, 
     vector<vector<int> > clusterEv, vector<vector<int> > clusterUs, 
     vector<vector<int> > clusterWs, bool debugMode)
 {	
 	// --- transfer the 1D pointer to 2D/3D array pointer
-    double ***removedTensor = vector2Tensor(removedData, numUser, numService, numTimeSlice);
-    double ***predTensor = vector2Tensor(predData, numUser, numService, numTimeSlice);
-
-    // alias
-    double ***Y = removedTensor;
-    double ***Y_hat = predTensor;
+    double ***Y = vector2Tensor(removedData, numUser, numService, numTimeSlice);
+    double ***Y_hat = vector2Tensor(predData, numUser, numService, numTimeSlice);
     
     // --- temporal variables
-    bool *tvis = new bool[clusterUs.size() * clusterWs.size() * clusterEv.size()];
     double *tf = new double[clusterUs.size() * clusterWs.size() * clusterEv.size()];
-    memset(tvis, false, clusterUs.size() * clusterWs.size() * clusterEv.size());
-    
-    bool ***vis = vector2Tensor(tvis, clusterUs.size(), clusterWs.size(), clusterEv.size());
+    memset(tf, 0, clusterUs.size() * clusterWs.size() * clusterEv.size() * sizeof(double));
     double ***f = vector2Tensor(tf, clusterUs.size(), clusterWs.size(), clusterEv.size());
-    
     
     for (int i = 0; i < numUser; ++i) {
     	for (int j = 0; j < numService; ++j) {
@@ -63,7 +54,7 @@ void CLUS_core(double *removedData, double *predData, int numUser, int numServic
     			}
                 
                 // query the hash space f for prediction
-                if (vis[attrUs[i]][attrWs[j]][attrEv[k]]) {
+                if (fabs(f[attrUs[i]][attrWs[j]][attrEv[k]]) > eps) {
                     Y_hat[i][j][k] = f[attrUs[i]][attrWs[j]][attrEv[k]];
                     continue;
                 }
@@ -87,7 +78,6 @@ void CLUS_core(double *removedData, double *predData, int numUser, int numServic
                 if (cnt != 0) {
                     Y_hat[i][j][k] = tot / cnt;
                     f[attrUs[i]][attrWs[j]][attrEv[k]] = Y_hat[i][j][k];
-                    vis[attrUs[i]][attrWs[j]][attrEv[k]] = true;
                     continue;
                 }
 
@@ -149,22 +139,6 @@ void CLUS_core(double *removedData, double *predData, int numUser, int numServic
 }
 
 
-double **vector2Matrix(double *vector, int row, int col)  
-{
-	double **matrix = new double *[row];
-	if (!matrix) {
-		cout << "Memory allocation failed in vector2Matrix." << endl;
-		return NULL;
-	}
-
-	int i;
-	for (i = 0; i < row; i++) {
-		matrix[i] = vector + i * col;  
-	}
-	return matrix;
-}
-
-
 double ***vector2Tensor(double *vector, int row, int col, int height)
 {
 	double ***tensor = new double **[row];
@@ -187,50 +161,6 @@ double ***vector2Tensor(double *vector, int row, int col, int height)
 	}
 
 	return tensor;
-}
-
-
-bool ***vector2Tensor(bool *vector, int row, int col, int height)
-{
-    bool ***tensor = new bool **[row];
-    if (!tensor) {
-        cout << "Memory allocation failed in vector2Tensor." << endl;
-        return NULL;
-    }
-    
-    int i, j;
-    for (i = 0; i < row; i++) {
-        tensor[i] = new bool *[col];
-        if (!tensor[i]) {
-            cout << "Memory allocation failed in vector2Tensor." << endl;
-            return NULL;
-        }
-        
-        for (j = 0; j < col; j++) {
-            tensor[i][j] = vector + i * col * height + j * height;
-        }
-    }
-    
-    return tensor;
-}
-
-
-double **createMatrix(int row, int col) 
-{
-    double **matrix = new double *[row];
-    matrix[0] = new double[row * col];
-    memset(matrix[0], 0, row * col * sizeof(double)); // Initialization
-    int i;
-    for (i = 1; i < row; i++) {
-    	matrix[i] = matrix[i - 1] + col;
-    }
-    return matrix;
-}
-
-
-void delete2DMatrix(double **ptr) {
-	delete ptr[0];
-	delete ptr;
 }
 
 
