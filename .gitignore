@@ -1,12 +1,10 @@
-# To add
+### User-defined
 data/fse13_data.csv
 
+### System-generated
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-
-# C extensions
-*.so
 
 # Distribution / packaging
 .Python
