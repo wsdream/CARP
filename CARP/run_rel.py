@@ -31,9 +31,9 @@ para = {'dataType': 'rel', # choose between 'rt' and 'rel'
 		'metrics': ['MAE', 'NMAE', 'RMSE', 'MRE', 'NPRE'], # delete where appropriate		
 		'density': list(np.arange(0.02, 0.11, 0.02)), # matrix density
 		'rounds': 20, # how many runs are performed at each matrix density
-		'dimension': 2, # dimenisionality of the latent factors
+		'dimension': 10, # dimenisionality of the latent factors
         'numContext': 7, # number of context conditions
-		'lambda': 0.01, # regularization parameter
+		'lambda': 0.05, # regularization parameter
 		'maxIter': 300, # the max iterations
 		'saveTimeInfo': False, # whether to keep track of the running time
 		'saveLog': True, # whether to save log into file

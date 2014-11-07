@@ -52,9 +52,6 @@ def initConfig(para):
         logger.addHandler(filehandler)  
     
     logger.info('==========================================')
-    if para['debugMode']:  
-        para['rounds'] = 1
-        logger.debug('Debug mode open: set rounds = 1')
     logger.info('Config:')
     config.update(para)
     for name in config:

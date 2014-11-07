@@ -1,8 +1,8 @@
 ########################################################
-# run_rt.py 
+# resultHandler.py 
 # Author: Jamie Zhu <jimzhu@GitHub>
 # Created: 2014/2/6
-# Last updated: 2014/6/8
+# Last updated: 2014/11/7
 ########################################################
 
 import numpy as np
