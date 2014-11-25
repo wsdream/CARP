@@ -19,7 +19,7 @@ print('==============================================')
 
 ext_modules = [Extension('core',
 				['src/core/core.pyx', 
-				'src/core/CARP.cpp'],
+				'src/core/PMF.cpp'],
 				language='c++',
 				include_dirs=[numpy.get_include()],
                 extra_compile_args=["-O2"]

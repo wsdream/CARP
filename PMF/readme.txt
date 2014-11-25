@@ -56,8 +56,6 @@ Contents of this package
 PMF/
   - run_rel.py                  - script file for running the experiments on 
                                   reliability QoS data 
-  - run_rt.py                   - script file for running the experiments on 
-                                  response-time QoS data
   - setup.py                    - setup script file for build c++ modules
   - readme.txt                  - descriptions of this package 
   - src/                        - directory of the source files
@@ -80,12 +78,10 @@ PMF/
                                   different time slices
   - result/                     - directory for storing evaluation results
                                   available metrics: (MAE, NMAE, RMSE, MRE, NPRE)
-      - 01_rtResult_0.05.txt    - E.g., the response-time prediction result for time
-                                  slice = 1, under matrix density = 5%
+      - avg_relResult_0.04.txt  - E.g., the reliability prediction result under 
+                                  matrix density = 4%
       - [...]                   - many other results
-      - average/
-          - avg_rtResult_0.05.txt   - the average result under matrix density = 5%
-		  - [...]                   - other results
+
 
 ----------------------------------------------------------------------------
 Usage of this package
@@ -94,17 +90,15 @@ Usage of this package
 For ease of reproducing and compare with other approaches, we provide the 
 detailed experimental results with five metrics (MAE, NMAE, RMSE, MRE, NPRE), 
 under the "result/" directory, after running the above QoS prediction approach 
-on the dataset. E.g.,"result/01_rtResult_0.05.txt" records the evaluation results 
-for time slice = 1, under matrix density = 5%. In particular, each experiment 
-is run for 20 times and the average result (including std value) is reported. 
-These results can be directly used for your research work.
+on the dataset. E.g.,"result/avg_relResult_0.04.txt" records the evaluation 
+results under matrix density = 4%. In particular, each experiment is run for 
+20 times and the average result (including std value) is reported. These results 
+can be directly used for your research work.
 
 On the other hand, if you want to reproduce our experiments, you can run the 
-program with our provided Python scripts "run_rt.py" and "run_rel.py". You can
-also turn on the "parallelMode" in the config area for speedup if you use a 
-multi-core computer.
+program with our provided Python scripts "run_rel.py". You can also turn on the 
+"parallelMode" in the config area for speedup if you use a multi-core computer.
 
->> python run_rt.py
 >> python run_rel.py
 
 Make sure the external module "core.so" exists. If not, you can build it by 

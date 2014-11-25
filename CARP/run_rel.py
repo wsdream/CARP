@@ -29,11 +29,13 @@ para = {'dataType': 'rel', # choose between 'rt' and 'rel'
         'dataPath': '../data/fse13_data.csv',
 		'outPath': 'result/',
 		'metrics': ['MAE', 'NMAE', 'RMSE', 'MRE', 'NPRE'], # delete where appropriate		
-		'density': list(np.arange(0.02, 0.11, 0.02)), # matrix density
+		'density': list(np.arange(0.05, 0.26, 0.05)), # matrix density
 		'rounds': 20, # how many runs are performed at each matrix density
-		'dimension': 10, # dimenisionality of the latent factors
+		'dimension': 2, # dimenisionality of the latent factors
         'numContext': 7, # number of context conditions
-		'lambda': 0.05, # regularization parameter
+        'etaInit': 0.1, # inital learning rate. We use line search
+						 # to find the best eta at each iteration
+		'lambda': 0.01, # regularization parameter
 		'maxIter': 300, # the max iterations
 		'saveTimeInfo': False, # whether to keep track of the running time
 		'saveLog': True, # whether to save log into file

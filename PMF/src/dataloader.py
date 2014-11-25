@@ -2,7 +2,7 @@
 # dataloader.py
 # Author: Jamie Zhu <jimzhu@GitHub>
 # Created: 2014/2/6
-# Last updated: 2014/10/12
+# Last updated: 2014/11/14
 ########################################################
 
 import numpy as np 
@@ -21,27 +21,14 @@ def load(para):
 			data = np.genfromtxt(datafile, comments='$', delimiter=',')
 			dataTensor[:, :, i] = data[(2 + 52 * i):(2 + 52 * i + 50), 1:]
 	else: # for 'rt'
-		dataTensor = -1 * np.ones((420, 1000, 652))
+		dataTensor = -1 * np.ones((420, 1000, 480))
 		with open(datafile) as lines:
 			for line in lines:
 				data = line.strip().split('\t')		
 				rt = float(data[3])
 				if rt > 0:
 					dataTensor[int(data[1]), int(data[2]), int(data[0])] = rt
-		dataTensor = preprocess(dataTensor)
 
 	return dataTensor 
 ########################################################
 
-
-########################################################
-# Function to preprocess the dataset
-# delete the invalid values
-# 
-def preprocess(tensor):
-	density = np.zeros(tensor.shape[2])
-	for cxtId in range(tensor.shape[2]):
-		density[cxtId] = np.sum(tensor[:,:,cxtId] > 0) * 1.0 / np.size(tensor[:,:,cxtId])
-	data = tensor[:, :, density > 0.5]
-	return data
-########################################################

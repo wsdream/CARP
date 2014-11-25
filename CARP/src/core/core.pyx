@@ -16,12 +16,10 @@ from utilities import *
 #########################################################
 # Make declarations on functions from cpp file
 #
-cdef extern from "CARP.h":
-    void getSimMatrix(double *removedData, double *simMatrixData, int numTimeSlice, 
-        int numInvocations)
-    void CARP(double *removedData, double *predData, int numUser, int numService, 
-        int numContext, int dim, double lmda, int maxIter, bool debugMode, 
-        double *Udata, double *Sdata, double *Cdata)
+cdef extern from "PMF.h":
+    void PMF(double *removedData, int numUser, int numService, 
+        int dim, double lmda, int maxIter, double etaInit, 
+        double *Udata, double *Sdata)
 #########################################################
 
 
@@ -33,19 +31,10 @@ def predict(removedTensor, para):
     (numUser, numService, numTimeSlice) = removedTensor.shape
     numContext = para['numContext']
 
-    # compute similarity matrix between time slices
-    invocMatrix = removedTensor.reshape(numUser * numService, numTimeSlice).T.copy()
-    cdef np.ndarray[double, ndim=2, mode='c'] simMatrix = np.zeros((numTimeSlice, numTimeSlice))
-    getSimMatrix(
-        <double *> (<np.ndarray[double, ndim=2, mode='c']> invocMatrix).data,
-        <double *> simMatrix.data,
-        <int> numTimeSlice,
-        <int> numUser * numService
-        )
-    
     # context clustering
+    featureMatrix = np.sum(removedTensor, axis=0) / (np.sum(removedTensor > 0, axis=0) + np.spacing(1))
     clusterCxt = [[] for i in xrange(numContext)]
-    [_, attrCxt] = scipy.cluster.vq.kmeans2(simMatrix, numContext, minit = 'points')
+    [_, attrCxt] = scipy.cluster.vq.kmeans2(featureMatrix.T, numContext, minit = 'points')
     for i in xrange(numTimeSlice):
         clusterCxt[attrCxt[i]].append(i)
     logger.info('Context clustering done.')
@@ -59,31 +48,31 @@ def predict(removedTensor, para):
     cxtTensor = cxtTensor / (countTensor + np.spacing(1))
 
     # initialization
-    cdef bool debugMode = para['debugMode']
     cdef int dim = para['dimension']
     cdef double lmda = para['lambda']
     cdef int maxIter = para['maxIter']
-    cdef np.ndarray[double, ndim=3, mode='c'] predCxtTensor =\
-        np.zeros((numUser, numService, numContext))
+    cdef double etaInit = para['etaInit']
     cdef np.ndarray[double, ndim=2, mode='c'] U = np.random.rand(numUser, dim)        
-    cdef np.ndarray[double, ndim=2, mode='c'] S = np.random.rand(numService, dim)
-    cdef np.ndarray[double, ndim=3, mode='c'] C = np.random.rand(dim, dim, numContext)
+    cdef np.ndarray[double, ndim=2, mode='c'] S = np.random.rand(numService, dim)     
+    predCxtTensor = np.zeros((numUser, numService, numContext))
 
     # context-aware matrix factorization
-    # wrap up CARP.cpp
-    CARP(<double *> (<np.ndarray[double, ndim=3, mode='c']> cxtTensor).data,
-        <double *> predCxtTensor.data,
-        <int> numUser,
-        <int> numService,
-        <int> numContext,
-        dim,
-        lmda,
-        maxIter,
-        debugMode,
-        <double *> U.data,
-        <double *> S.data,
-        <double *> C.data
-        )
+    for i in xrange(numContext):
+        removedMatrix = cxtTensor[:, :, i].copy()
+	    # wrap up PMF.cpp
+        PMF(
+            <double *> (<np.ndarray[double, ndim=2, mode='c']> removedMatrix).data,
+            numUser,
+            numService,
+            dim,
+            lmda,
+            maxIter,
+            etaInit,
+            <double *> U.data,
+            <double *> S.data
+            )
+        predCxtTensor[:, :, i] = np.dot(U, S.T)
+    predCxtTensor[cxtTensor > 0] = cxtTensor[cxtTensor > 0]
 
     # context-specific prediction
     predTensor = np.zeros((numUser, numService, numTimeSlice))
@@ -91,6 +80,6 @@ def predict(removedTensor, para):
         predTensor[:, :, clusterCxt[i]] = np.rollaxis(np.tile(predCxtTensor[:, :, i], 
             (len(clusterCxt[i]), 1, 1)), 0, 3)
     predTensor[removedTensor > 0] = removedTensor[removedTensor > 0]
-
+    
     return predTensor
 #########################################################  

@@ -2,12 +2,12 @@
 # evaluator.py
 # Author: Jamie Zhu <jimzhu@GitHub>
 # Created: 2014/2/6
-# Last updated: 2014/11/14
+# Last updated: 2014/11/03
 ########################################################
 
 import numpy as np 
 from numpy import linalg as LA
-import time
+import time, sys
 import random
 import core
 from utilities import *
@@ -16,46 +16,67 @@ from utilities import *
 ########################################################
 # Function to run the prediction approach at each density
 # 
-def execute(matrix, density, para, sliceId):
+def execute(tensor, density, para):
     startTime = time.clock()
-    numService = matrix.shape[1] 
-    numUser = matrix.shape[0] 
+    [numUser, numService, numTime] = tensor.shape
     rounds = para['rounds']
-    logger.info('Data matrix size: %d users * %d services'%(numUser, numService))
-    logger.info('Run the algorithm for %d rounds: matrix density = %.2f.'%(rounds, density))
+    logger.info('Data size: %d users * %d services * %d timeslices'\
+    	%(numUser, numService, numTime))
+    logger.info('Run the algorithm for %d rounds: density = %.2f.'%(rounds, density))
     evalResults = np.zeros((rounds, len(para['metrics']))) 
     timeResults = np.zeros((rounds, 1))
-    	
+    
     for k in range(rounds):
 		logger.info('----------------------------------------------')
 		logger.info('%d-round starts.'%(k + 1))
 		logger.info('----------------------------------------------')
 
-		# remove the entries of data matrix to generate trainMatrix and testMatrix
-		seedID = k + sliceId * 100
-		(trainMatrix, testMatrix) = removeEntries(matrix, density, seedID) 
+		# remove the entries of data to generate trainTensor and testTensor
+		(trainTensor, testTensor) = removeTensor(tensor, density, k, para)
 		logger.info('Removing data entries done.')
-		(testVecX, testVecY) = np.where(testMatrix)		
-		testVec = testMatrix[testVecX, testVecY]
-		# read the training data, i.e., removed matrix
 
 		# invocation to the prediction function
 		iterStartTime = time.clock() # to record the running time for one round             
-		predictedMatrix = core.predict(trainMatrix, para) 		
+		predictedTensor = core.predict(trainTensor, para) 
 		timeResults[k] = time.clock() - iterStartTime
 
 		# calculate the prediction error
-		predVec = predictedMatrix[testVecX, testVecY]
-		evalResults[k, :] = errMetric(testVec, predVec, para['metrics'])
+		result = np.zeros((numTime, len(para['metrics'])))
+		for i in range(numTime):
+			testMatrix = testTensor[:, :, i]
+			predictedMatrix = predictedTensor[:, :, i]
+			(testVecX, testVecY) = np.where(testMatrix)
+			testVec = testMatrix[testVecX, testVecY]
+			predVec = predictedMatrix[testVecX, testVecY]
+			result[i, :] = errMetric(testVec, predVec, para['metrics'])		
+		evalResults[k, :] = np.average(result, axis=0)
 
 		logger.info('%d-round done. Running time: %.2f sec'%(k + 1, timeResults[k]))
 		logger.info('----------------------------------------------')
 
-    outFile = '%s%02d_%sResult_%.2f.txt'%(para['outPath'], sliceId + 1, para['dataType'], density)
+    outFile = '%savg_%sResult_%.2f.txt'%(para['outPath'], para['dataType'], density)
     saveResult(outFile, evalResults, timeResults, para)
-    logger.info('Config density = %.2f done. Running time: %.2f sec'
+
+    logger.info('Density = %.2f done. Running time: %.2f sec'
 			%(density, time.clock() - startTime))
     logger.info('==============================================')
+########################################################
+
+
+########################################################
+# Function to remove the entries of data tensor
+# Return the trainTensor and the corresponding testTensor
+#
+def removeTensor(tensor, density, round, para):
+	numTime = tensor.shape[2]
+	trainTensor = np.zeros(tensor.shape)
+	testTensor = np.zeros(tensor.shape)
+	for i in range(numTime):
+		seedID = round + i * 100
+		(trainMatrix, testMatrix) = removeEntries(tensor[:, :, i], density, seedID)
+		trainTensor[:, :, i] = trainMatrix
+		testTensor[:, :, i] = testMatrix
+	return trainTensor, testTensor
 ########################################################
 
 
@@ -130,3 +151,4 @@ def errMetric(realVec, predVec, metrics):
 		    	result = np.append(result, npre)
     return result
 ########################################################
+
