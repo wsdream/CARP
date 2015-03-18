@@ -108,11 +108,22 @@ platforms, we has only tested the current version on Linux.
 >> python setup.py build_ext --inplace
 
 ----------------------------------------------------------------------------
+Implementations in other programming languages
+----------------------------------------------------------------------------
+
+If you want to try the other versions of implementation written in either pure 
+Python or Matlab, you can download the package below. These implementations 
+can also work on Windows, but run much slower.
+
+Python version: https://github.com/WS-DREAM/WSRec/tree/v0.4.3/PMF
+Matlab version: https://github.com/WS-DREAM/WSRec/tree/v0.4.0/PMF_m
+
+----------------------------------------------------------------------------
 Issues
 ----------------------------------------------------------------------------
 
 In case of questions or problems, please do not hesitate to report to our 
-issue page (https://github.com/RMBLab/CARP/issues). We will help ASAP. 
+issue page (https://github.com/WS-DREAM/CAP_pack/issues). We will help ASAP. 
 In addition, we will appreciate any contribution to refine and optimize this 
 package.
 
@@ -120,13 +131,13 @@ package.
 Copyright
 ----------------------------------------------------------------------------
 
-Copyright (c) RMBLab@GitHub, CUHK.
+Copyright (c) WS-DREAM@GitHub, CUHK.
 
 Permission is granted for anyone to copy, use, modify, or distribute this 
 program and accompanying programs and documents for any purpose, provided 
 this copyright notice is retained and prominently displayed, along with a 
 note saying that the original programs are available from our web page 
-(https://rmblab.github.io). The program is provided as-is, and there are 
+(https://wsdream.github.io). The program is provided as-is, and there are 
 no guarantees that it fits your purposes or that it is bug-free. All use 
 of these programs is entirely at the user's own risk. For any enquiries, 
 please feel free to contact Jamie Zhu <jmzhu AT cse.cuhk.edu.hk>.

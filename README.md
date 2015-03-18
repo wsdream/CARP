@@ -1,15 +1,8 @@
-##PPCF
+##CARP
 
 This repository maintains the source code of our implementation on CARP, context-aware reliability prediction of black-box services.
 
-Read more information: [Paper][[Project page](http://wsdream.github.io/CARP)]
-
-
-##Citation
-
-If you use this source code in published research, please kindly \*cite* the following paper. Thanks!
-
-- TBD
+Read more information: [[Paper](http://arxiv.org/abs/1503.00102)][[Project page](http://wsdream.github.io/CARP)]
 
 
 ##Related Links
