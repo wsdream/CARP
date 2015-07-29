@@ -76,7 +76,7 @@ Permission is granted for anyone to copy, use, modify, or distribute this
 program and accompanying programs and documents for any purpose, provided 
 this copyright notice is retained and prominently displayed, along with a 
 note saying that the original programs are available from our web page 
-(https://rmblab.github.io). The program is provided as-is, and there are 
+(http://wsdream.github.io). The program is provided as-is, and there are 
 no guarantees that it fits your purposes or that it is bug-free. All use 
 of these programs is entirely at the user's own risk. For any enquiries, 
 please feel free to contact Jamie Zhu <jmzhu AT cse.cuhk.edu.hk>.
