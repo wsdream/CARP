@@ -123,7 +123,7 @@ Issues
 ----------------------------------------------------------------------------
 
 In case of questions or problems, please do not hesitate to report to our 
-issue page (https://github.com/WS-DREAM/CAP_pack/issues). We will help ASAP. 
+issue page (https://github.com/wsdream/CARP/issues). We will help ASAP. 
 In addition, we will appreciate any contribution to refine and optimize this 
 package.
 
