@@ -1,6 +1,7 @@
-----------------------------------------------------------------------------
-README file for dataset
-----------------------------------------------------------------------------
+****************************************************************************
+* README file for dataset
+* Last updated: 2015/08/14
+****************************************************************************
 
 The data that we used in our work is a public reliability dataset released in 
 the following paper:
@@ -15,5 +16,5 @@ distributed agents on the Amazon EC2 cloud. It is available for downloading at:
 http://ccl.fer.hr/wordpress/people/research-assistants/marin-silic/clus-evaluation-dataset/
 
 If you have any questions on the dataset, please contact the author **Dr. Marin 
-Silic** from University of Zagreb. Thanks!
+Silic** from University of Zagreb.
 

@@ -1,17 +1,16 @@
-----------------------------------------------------------------------------
-README file for PMF
-----------------------------------------------------------------------------
-
-Author: Jamie Zhu <jimzhu@GitHub><jmzhu AT cse.cuhk.edu.hk>
-Last updated: 2014/10/24.
+****************************************************************************
+* README file for PMF
+* Author: Jamie Zhu <jimzhu@GitHub>
+* Last updated: 2015/08/14  
+****************************************************************************
 
 This package implements a QoS prediction approach, probabilistic matrix 
 factorization (PMF), which has been employed as a baseline approach 
 for comparison in the existing work [Zheng et al., TSC'13] 
 
-----------------------------------------------------------------------------
+****************************************************************************
 Reference and citation
-----------------------------------------------------------------------------
+****************************************************************************
 
 Please refer to the following papers for the detailed descriptions of the 
 implemented algorithms:
@@ -27,9 +26,9 @@ implemented algorithms:
 IF YOU USE THIS PACKAGE IN PUBLISHED RESEARCH, PLEASE CITE THE ABOVE PAPERS. 
 THANKS!
 
-----------------------------------------------------------------------------
+****************************************************************************
 Dependencies
-----------------------------------------------------------------------------
+****************************************************************************
 
 - Python 2.7 (https://www.python.org)
 - Cython 0.20.1 (http://cython.org)
@@ -49,9 +48,9 @@ modify the c++ source files and want to re-compile them.
 It is worth noting that our implementation is also based on numpy and scipy 
 packages, so you would also need to install these packages first.
 
-----------------------------------------------------------------------------
+****************************************************************************
 Contents of this package
-----------------------------------------------------------------------------
+****************************************************************************
 
 PMF/
   - run_rel.py                  - script file for running the experiments on 
@@ -83,9 +82,9 @@ PMF/
       - [...]                   - many other results
 
 
-----------------------------------------------------------------------------
+****************************************************************************
 Usage of this package
-----------------------------------------------------------------------------
+****************************************************************************
 
 For ease of reproducing and compare with other approaches, we provide the 
 detailed experimental results with five metrics (MAE, NMAE, RMSE, MRE, NPRE), 
@@ -97,7 +96,7 @@ can be directly used for your research work.
 
 On the other hand, if you want to reproduce our experiments, you can run the 
 program with our provided Python scripts "run_rel.py". You can also turn on the 
-"parallelMode" in the config area for speedup if you use a multi-core computer.
+"parallelMode" in the config area for speedup if you use a multi-core machine.
 
 >> python run_rel.py
 
@@ -107,38 +106,24 @@ platforms, we has only tested the current version on Linux.
 
 >> python setup.py build_ext --inplace
 
-----------------------------------------------------------------------------
-Implementations in other programming languages
-----------------------------------------------------------------------------
-
-If you want to try the other versions of implementation written in either pure 
-Python or Matlab, you can download the package below. These implementations 
-can also work on Windows, but run much slower.
-
-Python version: https://github.com/WS-DREAM/WSRec/tree/v0.4.3/PMF
-Matlab version: https://github.com/WS-DREAM/WSRec/tree/v0.4.0/PMF_m
-
-----------------------------------------------------------------------------
+****************************************************************************
 Issues
-----------------------------------------------------------------------------
+****************************************************************************
 
 In case of questions or problems, please do not hesitate to report to our 
 issue page (https://github.com/wsdream/CARP/issues). We will help ASAP. 
 In addition, we will appreciate any contribution to refine and optimize this 
 package.
 
-----------------------------------------------------------------------------
-Copyright
-----------------------------------------------------------------------------
-
-Copyright (c) WS-DREAM@GitHub, CUHK.
+****************************************************************************
+Copyright (c) WS-DREAM Team, CUHK
+****************************************************************************
 
 Permission is granted for anyone to copy, use, modify, or distribute this 
 program and accompanying programs and documents for any purpose, provided 
 this copyright notice is retained and prominently displayed, along with a 
 note saying that the original programs are available from our web page 
-(http://wsdream.github.io). The program is provided as-is, and there are 
+(https://wsdream.github.io). The program is provided as-is, and there are 
 no guarantees that it fits your purposes or that it is bug-free. All use 
-of these programs is entirely at the user's own risk. For any enquiries, 
-please feel free to contact Jamie Zhu <jmzhu AT cse.cuhk.edu.hk>.
+of these programs is entirely at the user's own risk.
 

@@ -1,16 +1,15 @@
-----------------------------------------------------------------------------
-README file for CARP
-----------------------------------------------------------------------------
-
-Author: Jamie Zhu <jimzhu@GitHub><jmzhu AT cse.cuhk.edu.hk>
-Last updated: 2014/11/04.
+****************************************************************************
+* README file for CARP
+* Author: Jamie Zhu <jimzhu@GitHub>
+* Last updated: 2015/08/14   
+****************************************************************************
 
 This package implements CARP, an approach for context-aware reliability 
 prediction of black-box services.  
 
-----------------------------------------------------------------------------
+****************************************************************************
 Dependencies
-----------------------------------------------------------------------------
+****************************************************************************
 
 - Python 2.7 (https://www.python.org)
 - Cython 0.20.1 (http://cython.org)
@@ -30,9 +29,9 @@ modify the c++ source files and want to re-compile them.
 It is worth noting that our implementation is also based on numpy and scipy 
 packages, so you would also need to install these packages first.
 
-----------------------------------------------------------------------------
+****************************************************************************
 Contents of this package
-----------------------------------------------------------------------------
+****************************************************************************
 
 CARP/
   - run_rel.py                   - script file for running the experiments on 
@@ -41,7 +40,7 @@ CARP/
   - readme.txt                   - descriptions of this package 
   - src/                         - directory of the source files
       - dataloader.py            - a function to load the dataset (with 
-	                               preprocessing)
+                                   preprocessing)
       - utilities.py             - a script containing a bag of useful utilities
       - evaluator.py             - control execution and results collection of the 
                                    specific algorithm
@@ -60,9 +59,9 @@ CARP/
                                    matrix density = 2%
       - [...]                    - many other results
 
-----------------------------------------------------------------------------
+****************************************************************************
 Usage of this package
-----------------------------------------------------------------------------
+****************************************************************************
 
 For ease of reproducing and compare with other approaches, we provide the 
 detailed experimental results with five metrics (MAE, NMAE, RMSE, MRE, NPRE), 
@@ -85,27 +84,24 @@ platforms, we has only tested the current version on Linux.
 
 >> python setup.py build_ext --inplace
 
-----------------------------------------------------------------------------
+****************************************************************************
 Issues
-----------------------------------------------------------------------------
+****************************************************************************
 
 In case of questions or problems, please do not hesitate to report to our 
 issue page (https://github.com/wsdream/CARP/issues). We will help ASAP. 
 In addition, we will appreciate any contribution to refine and optimize this 
 package.
 
-----------------------------------------------------------------------------
-Copyright
-----------------------------------------------------------------------------
-
-Copyright (c) WS-DREAM@GitHub, CUHK.
+****************************************************************************
+Copyright (c) WS-DREAM Team, CUHK
+****************************************************************************
 
 Permission is granted for anyone to copy, use, modify, or distribute this 
 program and accompanying programs and documents for any purpose, provided 
 this copyright notice is retained and prominently displayed, along with a 
 note saying that the original programs are available from our web page 
-(http://wsdream.github.io). The program is provided as-is, and there are 
+(https://wsdream.github.io). The program is provided as-is, and there are 
 no guarantees that it fits your purposes or that it is bug-free. All use 
-of these programs is entirely at the user's own risk. For any enquiries, 
-please feel free to contact Jamie Zhu <jmzhu AT cse.cuhk.edu.hk>.
+of these programs is entirely at the user's own risk.
 
