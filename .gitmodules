@@ -1,3 +1,0 @@
-[submodule "externals/Cython"]
-	path = externals/Cython
-	url = https://github.com/cython/cython.git
