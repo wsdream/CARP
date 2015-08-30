@@ -25,6 +25,6 @@ For bugs and feedback, please post to [our issue page](https://github.com/wsdrea
 
 
 ###License
-[The MIT License (MIT)](./blob/master/LICENSE)
+[The MIT License (MIT)](./LICENSE)
 
 Copyright &copy; 2015, [WS-DREAM](https://wsdream.github.io), CUHK
